@@ -45,7 +45,6 @@ body {
 }
 
 .skinHeader {
-    background-color: transparent !important;
     background: transparent !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
@@ -140,7 +139,6 @@ body {
 .emby-tab-button.emby-tab-button-active {
     color: var(--apple-text) !important;
     background: rgba(0, 0, 0, 0.5) !important;
-    background-color: rgba(0, 0, 0, 0.5) !important;
     box-shadow: none !important;
     backdrop-filter: var(--apple-blur) !important;
     -webkit-backdrop-filter: var(--apple-blur) !important;
@@ -151,10 +149,7 @@ body {
     outline: none !important;
 }
 
-.emby-button-focusring {
-    display: none !important;
-}
-
+.emby-button-focusring,
 .emby-tabs-selectionbar {
     display: none !important;
 }
@@ -221,7 +216,10 @@ body {
 .cardScalable,
 .cardContent,
 .cardImageContainer,
-.cardPadder {
+.cardPadder,
+.cardPadder-portrait,
+.cardPadder-backdrop,
+.cardPadder-square {
     border-radius: var(--apple-radius) !important;
 }
 
@@ -234,7 +232,6 @@ body {
     transition: transform 0.5s var(--apple-spring-bouncy), box-shadow 0.3s ease !important;
     position: relative !important;
     background: transparent !important;
-    background-color: transparent !important;
     margin: 1.2em !important;
 }
 
@@ -249,7 +246,6 @@ body {
 .cardBox,
 .cardScalable {
     background: transparent !important;
-    background-color: transparent !important;
     overflow: hidden !important;
     margin: 0 !important;
 }
@@ -260,15 +256,12 @@ body {
 .cardPadder-portrait,
 .cardPadder-backdrop,
 .cardPadder-square {
-    border-radius: var(--apple-radius) !important;
     overflow: hidden !important;
     background-color: transparent !important;
 }
 
 .cardContent {
     background-color: var(--apple-glass) !important;
-    border: none !important;
-    overflow: hidden !important;
 }
 
 .cardImageContainer {
@@ -311,16 +304,13 @@ body {
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease !important;
 }
 
-.portraitCard {
+.portraitCard,
+.squareCard {
     width: 220px !important;
 }
 
 .backdropCard {
     width: 400px !important;
-}
-
-.squareCard {
-    width: 220px !important;
 }
 
 .collectionCard .cardContent,
@@ -405,7 +395,9 @@ body {
 }
 
 .layout-tv #castCollapsible .emby-scroller,
-.layout-tv #guestCastCollapsible .emby-scroller {
+.layout-tv #guestCastCollapsible .emby-scroller,
+.layout-tv #scenesCollapsible .emby-scroller,
+.layout-tv #similarCollapsible .emby-scroller {
     margin-left: -20em !important;
 }
 
@@ -425,16 +417,6 @@ body {
     border-left: none !important;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
     margin-bottom: 0.5em !important;
-}
-
-.layout-tv #scenesCollapsible .emby-scroller,
-.layout-tv #similarCollapsible .emby-scroller {
-    margin-left: -20em !important;
-}
-
-.layout-tv #scenesCollapsible .sectionTitle,
-.layout-tv #similarCollapsible .sectionTitle {
-    margin-left: -16em !important;
 }
 
 #searchPage {
@@ -608,9 +590,6 @@ body {
     font-size: 0.85em !important;
 }
 
-.videoOsdBottom.videoOsdBottom-maincontrols .osdTextContainer.osdMainTextContainer,
-.videoOsdBottom.videoOsdBottom-maincontrols .osdTextContainer.osdSecondaryMediaInfo,
-.videoOsdBottom.videoOsdBottom-maincontrols .osdTitle,
 .osdMainTextContainer,
 .osdSecondaryMediaInfo,
 .osdTitle {
@@ -650,14 +629,6 @@ body {
 
 .osdControls .btnPlayPause {
     transform: scale(1.3) !important;
-}
-
-.osdTitle {
-    font-weight: 600 !important;
-    font-size: 1.5em !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
 }
 
 ::-webkit-scrollbar {
@@ -761,16 +732,13 @@ body {
     flex-shrink: 0 !important;
 }
 
-.layout-tv .portraitCard {
+.layout-tv .portraitCard,
+.layout-tv .squareCard {
     width: 280px !important;
 }
 
 .layout-tv .backdropCard {
     width: 500px !important;
-}
-
-.layout-tv .squareCard {
-    width: 280px !important;
 }
 
 .layout-tv .card:hover,
@@ -1001,10 +969,6 @@ body {
     .skinBody,
     .page-current {
         padding-top: 4em !important;
-    }
-
-    .doc-loading-indicator {
-        z-index: 900 !important;
     }
 
     .content-loader {
