@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
 :root {
     --apple-bg: #000;
     --apple-glass: rgba(255, 255, 255, 0.1);
@@ -11,7 +9,7 @@
     --apple-radius-large: 20px;
     --apple-blur: blur(25px) saturate(180%);
     --apple-shadow: 0 40px 40px -40px rgba(0, 0, 0, 0.9), 0 -40px 40px -40px rgba(0, 0, 0, 0.9);
-    --apple-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --apple-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     --apple-spring-fast: cubic-bezier(0.16, 1, 0.3, 1);
     --apple-spring-bouncy: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -126,11 +124,18 @@ body {
     overflow: hidden !important;
 }
 
-.emby-tab-button:hover,
 .emby-tab-button:focus {
     color: var(--apple-text) !important;
     background: var(--apple-glass) !important;
     transform: scale(1.05) !important;
+}
+
+@media (hover: hover) {
+    .emby-tab-button:hover {
+        color: var(--apple-text) !important;
+        background: var(--apple-glass) !important;
+        transform: scale(1.05) !important;
+    }
 }
 
 .emby-tab-button:active {
@@ -164,14 +169,27 @@ body {
 .dialog,
 .menu,
 .paperList,
-.mainDrawer-scrollContainer,
-.emby-input,
-.emby-textarea {
+.emby-input {
     background-color: rgba(15, 15, 15, 0.9) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: var(--apple-radius) !important;
     color: white !important;
     overflow: hidden !important;
+    isolation: isolate !important;
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+    font-weight: 500 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+.emby-textarea {
+    background-color: rgba(15, 15, 15, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: var(--apple-radius) !important;
+    color: white !important;
     isolation: isolate !important;
     text-rendering: optimizeLegibility !important;
     -webkit-font-smoothing: antialiased !important;
@@ -282,18 +300,22 @@ body {
     -webkit-backdrop-filter: var(--apple-blur) !important;
 }
 
-.card:hover,
 .card:focus {
     transform: scale(1.1) !important;
     box-shadow: var(--apple-shadow) !important;
     z-index: 100 !important;
     outline: none !important;
     border: none !important;
-    mask-image: radial-gradient(white, black);
-    -webkit-mask-image: -webkit-radial-gradient(white, black);
-    mask-clip: content-box;
-    -webkit-mask-clip: content-box;
-    mask-image: none !important;
+}
+
+@media (hover: hover) {
+    .card:hover {
+        transform: scale(1.1) !important;
+        box-shadow: var(--apple-shadow) !important;
+        z-index: 100 !important;
+        outline: none !important;
+        border: none !important;
+    }
 }
 
 .card,
@@ -308,7 +330,6 @@ body {
     box-shadow: none !important;
     border: none !important;
     outline: none !important;
-    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease !important;
 }
 
 .portraitCard {
@@ -416,8 +437,8 @@ body {
 .layout-tv #similarCollapsible .sectionTitle {
     margin-left: -16em !important;
     background: rgba(0, 0, 0, 0.4) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
+    backdrop-filter: var(--apple-blur) !important;
+    -webkit-backdrop-filter: var(--apple-blur) !important;
     padding: 0.2em 1.5em 0.2em 1em !important;
     border-radius: 0 50px 50px 0 !important;
     width: fit-content !important;
@@ -425,16 +446,6 @@ body {
     border-left: none !important;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
     margin-bottom: 0.5em !important;
-}
-
-.layout-tv #scenesCollapsible .emby-scroller,
-.layout-tv #similarCollapsible .emby-scroller {
-    margin-left: -20em !important;
-}
-
-.layout-tv #scenesCollapsible .sectionTitle,
-.layout-tv #similarCollapsible .sectionTitle {
-    margin-left: -16em !important;
 }
 
 #searchPage {
@@ -477,10 +488,12 @@ body {
     transition: all 0.2s ease !important;
 }
 
-.emby-button.raised:hover {
-    background: var(--apple-text) !important;
-    color: #000 !important;
-    transform: scale(1.05) !important;
+@media (hover: hover) {
+    .emby-button.raised:hover {
+        background: var(--apple-text) !important;
+        color: #000 !important;
+        transform: scale(1.05) !important;
+    }
 }
 
 @keyframes appleFadeIn {
@@ -631,10 +644,16 @@ body {
     transition: transform 0.2s var(--apple-spring-fast) !important;
 }
 
-.btnVideoOsdBack:hover,
 .btnVideoOsdBack:focus {
     transform: scale(1.1) !important;
     background: rgba(255, 255, 255, 0.2) !important;
+}
+
+@media (hover: hover) {
+    .btnVideoOsdBack:hover {
+        transform: scale(1.1) !important;
+        background: rgba(255, 255, 255, 0.2) !important;
+    }
 }
 
 .osdControls .paper-icon-button-light {
@@ -643,21 +662,15 @@ body {
     transition: transform 0.2s ease, background 0.2s ease !important;
 }
 
-.osdControls .paper-icon-button-light:hover {
-    background: rgba(255, 255, 255, 0.2) !important;
-    transform: scale(1.1) !important;
+@media (hover: hover) {
+    .osdControls .paper-icon-button-light:hover {
+        background: rgba(255, 255, 255, 0.2) !important;
+        transform: scale(1.1) !important;
+    }
 }
 
 .osdControls .btnPlayPause {
     transform: scale(1.3) !important;
-}
-
-.osdTitle {
-    font-weight: 600 !important;
-    font-size: 1.5em !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
 }
 
 ::-webkit-scrollbar {
@@ -678,8 +691,13 @@ body {
     background: rgba(255, 255, 255, 0.4) !important;
 }
 
-*:focus {
+*:focus:not(:focus-visible) {
     outline: none !important;
+}
+
+*:focus-visible {
+    outline: 2px solid var(--apple-accent) !important;
+    outline-offset: 2px !important;
 }
 
 .content-loader {
@@ -824,45 +842,21 @@ body {
     pointer-events: none !important;
 }
 
-.videoOsd-visible .subtitles,
-.videoOsd-visible .videoSubtitles,
-.videoOsd-visible .videoSubtitlesInner,
-.videoOsd-visible .subtitle-container,
-.videoOsd-visible .libassjs-canvas-parent,
-.videoOsd-visible .shaka-text-container,
-.osd-visible .subtitles,
-.osd-visible .videoSubtitles,
-.osd-visible .videoSubtitlesInner,
-.osd-visible .subtitle-container,
-.osd-visible .libassjs-canvas-parent,
-.osd-visible .shaka-text-container,
-.showing-osd .subtitles,
-.showing-osd .videoSubtitles,
-.showing-osd .videoSubtitlesInner,
-.showing-osd .subtitle-container,
-.showing-osd .libassjs-canvas-parent,
-.showing-osd .shaka-text-container {
+html:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .subtitles,
+html:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .videoSubtitles,
+html:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .videoSubtitlesInner,
+html:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .subtitle-container,
+html:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .libassjs-canvas-parent,
+html:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .shaka-text-container {
     bottom: 8em !important;
 }
 
-.layout-tv.videoOsd-visible .subtitles,
-.layout-tv.videoOsd-visible .videoSubtitles,
-.layout-tv.videoOsd-visible .videoSubtitlesInner,
-.layout-tv.videoOsd-visible .subtitle-container,
-.layout-tv.videoOsd-visible .libassjs-canvas-parent,
-.layout-tv.videoOsd-visible .shaka-text-container,
-.layout-tv.osd-visible .subtitles,
-.layout-tv.osd-visible .videoSubtitles,
-.layout-tv.osd-visible .videoSubtitlesInner,
-.layout-tv.osd-visible .subtitle-container,
-.layout-tv.osd-visible .libassjs-canvas-parent,
-.layout-tv.osd-visible .shaka-text-container,
-.layout-tv.showing-osd .subtitles,
-.layout-tv.showing-osd .videoSubtitles,
-.layout-tv.showing-osd .videoSubtitlesInner,
-.layout-tv.showing-osd .subtitle-container,
-.layout-tv.showing-osd .libassjs-canvas-parent,
-.layout-tv.showing-osd .shaka-text-container {
+html.layout-tv:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .subtitles,
+html.layout-tv:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .videoSubtitles,
+html.layout-tv:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .videoSubtitlesInner,
+html.layout-tv:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .subtitle-container,
+html.layout-tv:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .libassjs-canvas-parent,
+html.layout-tv:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .shaka-text-container {
     bottom: 14em !important;
 }
 
@@ -879,9 +873,7 @@ body {
     padding: 0.1em 0.4em !important;
     border-radius: 4px !important;
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.9) !important;
-    font-size: 1.8rem !important;
     font-weight: 500 !important;
-    line-height: 1.4 !important;
     font-family: var(--apple-font) !important;
     display: inline-block !important;
     margin: 0 auto !important;
@@ -892,8 +884,6 @@ body {
 .videoSubtitlesInner div,
 .subtitle-container div {
     background-color: transparent !important;
-    font-size: 1.8rem !important;
-    line-height: 1.4 !important;
     text-align: center !important;
     width: 100% !important;
     margin: 0 !important;
@@ -903,7 +893,10 @@ body {
 /* Mobile and Tablet Optimizations */
 @media (max-width: 1000px) {
     :root {
-        --apple-blur: blur(10px) saturate(140%);
+        /* Backdrop-filter is expensive on low-power mobile GPUs and causes
+           UI freezes; disable it globally and re-enable it only for the
+           handful of elements below where the visual payoff is worth it. */
+        --apple-blur: none;
     }
 
     .portraitCard,
@@ -930,12 +923,7 @@ body {
         background: rgba(0, 0, 0, 0.8) !important;
     }
 
-    /* Disable expensive filters on mobile to prevent UI freezes */
-    * {
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-    }
-
+    /* Exceptions: keep a light blur for these high-visibility surfaces */
     .mainDrawer,
     .dialog,
     .emby-tab-button.emby-tab-button-active {
@@ -1036,7 +1024,19 @@ body {
 /* Ensure background container doesn't block loading screens */
 .doc-loading-indicator {
     background-color: rgba(0, 0, 0, 0.6) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
+    backdrop-filter: var(--apple-blur) !important;
+    -webkit-backdrop-filter: var(--apple-blur) !important;
     z-index: 900 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
