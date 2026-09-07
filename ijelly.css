@@ -174,7 +174,8 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: var(--apple-radius) !important;
     color: white !important;
-    overflow: hidden !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
     isolation: isolate !important;
     text-rendering: optimizeLegibility !important;
     -webkit-font-smoothing: antialiased !important;
