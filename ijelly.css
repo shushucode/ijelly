@@ -9,11 +9,25 @@
     --apple-accent: #007aff;
     --apple-radius: 12px;
     --apple-radius-large: 20px;
+    --apple-radius-sheet: 26px;
+    --apple-radius-control: 999px;
+    --apple-radius-control-hover: 14px;
+    --apple-radius-control-sm-hover: 9px;
+    --apple-radius-container: 999px;
     --apple-blur: blur(25px) saturate(180%);
+    --apple-blur-heavy: blur(40px) saturate(180%);
+    --apple-glass-edge: rgba(255, 255, 255, 0.18);
+    --apple-glass-edge-hover: rgba(255, 255, 255, 0.34);
+    --apple-control-veil: inset 0 0 0 1px rgba(255, 255, 255, 0), inset 0 0 0 100px rgba(255, 255, 255, 0);
+    --apple-control-veil-hover: inset 0 0 0 1px var(--apple-glass-edge-hover), inset 0 0 0 100px rgba(255, 255, 255, 0.16);
+    --apple-glass-specular: inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
+    --apple-glass-ring: 0 0 0 1px rgba(255, 255, 255, 0.08);
+    --apple-text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75), 0 3px 24px rgba(0, 0, 0, 0.8);
     --apple-shadow: 0 40px 40px -40px rgba(0, 0, 0, 0.9), 0 -40px 40px -40px rgba(0, 0, 0, 0.9);
     --apple-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     --apple-spring-fast: cubic-bezier(0.16, 1, 0.3, 1);
     --apple-spring-bouncy: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --apple-control-transition: transform 0.28s var(--apple-spring-fast), border-radius 0.3s var(--apple-spring-fast), corner-shape 0.3s var(--apple-spring-fast), box-shadow 0.22s ease, border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
 }
 
 html,
@@ -44,8 +58,16 @@ body {
     background-color: var(--apple-bg) !important;
 }
 
+/*
+ * Kept edge-to-edge rather than a solid bar, but a top-down scrim is needed:
+ * content scrolls underneath a fixed transparent header and the icons and page
+ * title have to stay readable over whatever passes behind them.
+ */
 .skinHeader {
-    background: transparent !important;
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.6) 0%,
+            rgba(0, 0, 0, 0.32) 55%,
+            rgba(0, 0, 0, 0) 100%) !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     overflow: visible !important;
@@ -118,34 +140,24 @@ body {
     font-size: 1.1em !important;
     color: var(--apple-text-dim) !important;
     padding: 0.6em 1.5em !important;
-    border-radius: 40px !important;
     margin: 0 0.5em !important;
-    transition: all 0.4s var(--apple-spring-fast) !important;
     background: transparent !important;
+    border: 1px solid transparent !important;
     overflow: hidden !important;
 }
 
 .emby-tab-button:hover,
 .emby-tab-button:focus {
     color: var(--apple-text) !important;
-    background: var(--apple-glass) !important;
-    transform: scale(1.05) !important;
-}
-
-.emby-tab-button:active {
-    transform: scale(0.94) !important;
 }
 
 .emby-tab-button.emby-tab-button-active {
     color: var(--apple-text) !important;
     background: rgba(0, 0, 0, 0.5) !important;
-    box-shadow: none !important;
     backdrop-filter: var(--apple-blur) !important;
     -webkit-backdrop-filter: var(--apple-blur) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid var(--apple-glass-edge) !important;
     opacity: 1 !important;
-    transform: none !important;
-    border-radius: 40px !important;
     outline: none !important;
 }
 
@@ -320,43 +332,216 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
 }
 
+/* The centred play affordance on a hovered card. */
 .cardOverlayButton {
-    border-radius: 50% !important;
     background: var(--apple-glass-heavy) !important;
     backdrop-filter: var(--apple-blur) !important;
     -webkit-backdrop-filter: var(--apple-blur) !important;
+    border: 1px solid var(--apple-glass-edge) !important;
 }
 
-.cardOverlayButton:hover {
-    background: var(--apple-text) !important;
-    color: #000 !important;
+/*
+ * The corner controls are secondary, so they get chips rather than the full
+ * glass circle above - which sized itself off the button's padding box and
+ * came out larger than the icon needed. Spacing and inset come from the flex
+ * row so the buttons stop touching each other and the card's edge.
+ */
+.cardOverlayButton-br {
+    bottom: 0.5em !important;
+    right: 0.5em !important;
+    gap: 0.45em !important;
 }
+
+/* The chip is the icon here, so the button around it stays bare. */
+.cardOverlayButton-br .cardOverlayButton {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.cardOverlayButton-br .cardOverlayButtonIcon {
+    font-size: 1.35em !important;
+    height: 1.55em !important;
+    width: 1.55em !important;
+    border-radius: var(--apple-radius-control) !important;
+    corner-shape: round;
+    background-color: rgba(0, 0, 0, 0.45) !important;
+    backdrop-filter: var(--apple-blur) !important;
+    -webkit-backdrop-filter: var(--apple-blur) !important;
+    border: 1px solid var(--apple-glass-edge) !important;
+    box-shadow: var(--apple-control-veil) !important;
+    transition: var(--apple-control-transition) !important;
+}
+
+.cardOverlayButton-br .cardOverlayButton:hover .cardOverlayButtonIcon,
+.cardOverlayButton-br .cardOverlayButton:focus .cardOverlayButtonIcon {
+    border-radius: var(--apple-radius-control-sm-hover) !important;
+    corner-shape: squircle;
+    box-shadow: var(--apple-control-veil-hover) !important;
+}
+
+.cardOverlayButton-br .cardOverlayButton:focus:not(:focus-visible):not(:hover) .cardOverlayButtonIcon {
+    border-radius: var(--apple-radius-control) !important;
+    corner-shape: round;
+    box-shadow: var(--apple-control-veil) !important;
+}
+
+/* ---------- Item details: sharp hero, liquid glass beneath ---------- */
 
 #itemDetailPage {
     background-color: transparent !important;
 }
 
-.detailPagePrimaryContainer {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 1) 90%) !important;
-    padding-top: 2em !important;
+/*
+ * The ambient backdrop is blurred site-wide so cards read cleanly on top of it.
+ * On a detail page that blur is the wrong call: the hero artwork is the subject,
+ * so drop it here and let the glass sheet below do the separating instead.
+ * Engines without :has() keep the old blurred hero, which is merely less pretty.
+ */
+#reactRoot:has(.itemDetailPage:not(.hide)) .backdropContainer,
+body:has(.itemDetailPage:not(.hide)) .backdropContainer {
+    filter: none !important;
 }
 
-.detailPageWrapperContainer {
-    padding-top: 1em !important;
-}
-
+/*
+ * The hero itself is a transparent spacer in current Jellyfin; the artwork comes
+ * from .backdropContainer behind it. Painting a scrim here darkens the artwork
+ * just enough for the header and title to stay readable, and ramps into the
+ * glass sheet so there is no hard seam.
+ */
 .itemBackdrop {
-    height: 50vh !important;
-    mask-image: linear-gradient(to bottom, black 50%, transparent 100%) !important;
-    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%) !important;
-    opacity: 0.8 !important;
+    height: 52vh !important;
+    background-image: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.55) 0%,
+            rgba(0, 0, 0, 0.1) 22%,
+            rgba(0, 0, 0, 0) 45%,
+            rgba(0, 0, 0, 0.16) 70%,
+            rgba(0, 0, 0, 0.36) 88%,
+            rgba(0, 0, 0, 0.55) 100%) !important;
+    background-attachment: scroll !important;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    opacity: 1 !important;
+}
+
+/* No shaded bar behind the title - it sits on the artwork. */
+.detailRibbon {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+.detailRibbon .itemName,
+.detailRibbon .infoWrapper,
+.detailRibbon .itemMiscInfo,
+.detailRibbon .parentName {
+    text-shadow: var(--apple-text-shadow) !important;
+}
+
+.detailRibbon .itemName {
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+}
+
+/*
+ * Everything from the title down is one continuous pane of glass.
+ *
+ * The glass lives on a pseudo-element rather than on the container itself.
+ * Chrome clips an element's background to its border-radius but clips the
+ * backdrop-filter to the plain border box, so a rounded container leaks blur
+ * into the square corners. clip-path clips both - but it also clips children,
+ * and the title and poster deliberately hang above this box. A childless
+ * pseudo-element can be clipped without taking them with it.
+ */
+.detailPageWrapperContainer {
+    position: relative !important;
+    padding-top: 0 !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.detailPageWrapperContainer::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
+    border-radius: var(--apple-radius-sheet) var(--apple-radius-sheet) 0 0 !important;
+    clip-path: inset(0 round var(--apple-radius-sheet) var(--apple-radius-sheet) 0 0) !important;
+    background: linear-gradient(to bottom,
+            rgba(16, 16, 19, 0.62) 0,
+            rgba(11, 11, 13, 0.85) 16em,
+            rgba(8, 8, 10, 0.95) 40em) !important;
+    backdrop-filter: var(--apple-blur-heavy) !important;
+    -webkit-backdrop-filter: var(--apple-blur-heavy) !important;
+    box-shadow: var(--apple-glass-specular) !important;
+}
+
+.detailPagePrimaryContainer,
+.detailPageSecondaryContainer {
+    background: transparent !important;
+}
+
+/*
+ * Pin the title block's bottom edge to the top of the glass instead of relying
+ * on Jellyfin's fixed 7.2em height and matching negative margin. Albums carry
+ * an extra line (name, artist, track count) and anything past 7.2em used to
+ * spill over the sheet; anchored this way the block grows upward into the
+ * artwork, which has room for it.
+ */
+.layout-desktop .detailRibbon {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 100% !important;
+    height: auto !important;
+    min-height: 7.2em !important;
+    margin-top: 0 !important;
+    padding-bottom: 0.7em !important;
+}
+
+/*
+ * Jellyfin indents detail content by 32.45vw to clear a poster that is 25vw
+ * wide. The poster is capped at 360px here, so past ~1440px the indent keeps
+ * growing while the poster does not, stranding an empty column. Track the
+ * poster's real width instead - and let the sections below it, which have no
+ * poster to clear at all, start at the page margin.
+ */
+.layout-desktop .detailRibbon,
+.layout-desktop .detailPagePrimaryContent {
+    padding-left: calc(3.3% + min(25vw, 360px) + 4em) !important;
+}
+
+.layout-desktop .detailPageContent {
+    padding-left: 3.3% !important;
+    padding-right: 3.3% !important;
 }
 
 .detailPagePrimaryContainer .card,
 .detailImageContainer .card {
     width: 360px !important;
     transform: none !important;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8) !important;
+    border-radius: var(--apple-radius-large) !important;
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.85), var(--apple-glass-ring) !important;
+}
+
+/* Play / watched / favourite / overflow: floating glass pills. */
+.mainDetailButtons .paper-icon-button-light,
+.mainDetailButtons .detailButton,
+.mainDetailButtons .button-flat {
+    background: var(--apple-glass) !important;
+    backdrop-filter: var(--apple-blur) !important;
+    -webkit-backdrop-filter: var(--apple-blur) !important;
+    border: 1px solid var(--apple-glass-edge) !important;
+    margin: 0 0.25em !important;
 }
 
 /* Movie Logo in Media Bar / Details */
@@ -411,7 +596,7 @@ body {
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
     padding: 0.2em 1.5em 0.2em 1em !important;
-    border-radius: 0 50px 50px 0 !important;
+    border-radius: 0 var(--apple-radius-container) var(--apple-radius-container) 0 !important;
     width: fit-content !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-left: none !important;
@@ -427,7 +612,7 @@ body {
     background-color: var(--apple-glass-heavy) !important;
     backdrop-filter: var(--apple-blur) !important;
     -webkit-backdrop-filter: var(--apple-blur) !important;
-    border-radius: 40px !important;
+    border-radius: var(--apple-radius-container) !important;
     margin: 2em auto !important;
     padding: 0.5em 1.5em !important;
     max-width: 800px !important;
@@ -453,16 +638,8 @@ body {
     background: var(--apple-glass-heavy) !important;
     backdrop-filter: var(--apple-blur) !important;
     -webkit-backdrop-filter: var(--apple-blur) !important;
-    border-radius: 30px !important;
     font-weight: 600 !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    transition: all 0.2s ease !important;
-}
-
-.emby-button.raised:hover {
-    background: var(--apple-text) !important;
-    color: #000 !important;
-    transform: scale(1.05) !important;
+    border: 1px solid var(--apple-glass-edge) !important;
 }
 
 @keyframes appleFadeIn {
@@ -523,7 +700,7 @@ body {
     background: var(--apple-glass) !important;
     backdrop-filter: var(--apple-blur) !important;
     -webkit-backdrop-filter: var(--apple-blur) !important;
-    border-radius: 50px !important;
+    border-radius: var(--apple-radius-container) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     box-shadow: var(--apple-shadow) !important;
     width: 96% !important;
@@ -606,29 +783,25 @@ body {
     background: rgba(0, 0, 0, 0.3) !important;
     backdrop-filter: var(--apple-blur) !important;
     -webkit-backdrop-filter: var(--apple-blur) !important;
-    border-radius: 50% !important;
-    transition: transform 0.2s var(--apple-spring-fast) !important;
-}
-
-.btnVideoOsdBack:hover,
-.btnVideoOsdBack:focus {
-    transform: scale(1.1) !important;
-    background: rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid var(--apple-glass-edge) !important;
 }
 
 .osdControls .paper-icon-button-light {
-    border-radius: 50% !important;
     background: transparent !important;
-    transition: transform 0.2s ease, background 0.2s ease !important;
+    border: 1px solid transparent !important;
 }
 
-.osdControls .paper-icon-button-light:hover {
-    background: rgba(255, 255, 255, 0.2) !important;
-    transform: scale(1.1) !important;
-}
-
-.osdControls .btnPlayPause {
-    transform: scale(1.3) !important;
+/*
+ * Play/pause is bigger than its neighbours, and that size is a transform.
+ * Expressed as the shared scale token so hover and press multiply it instead
+ * of replacing it - otherwise hovering the largest control shrinks it.
+ * Jellyfin has called this button .btnPlayPause and, more recently, .btnPlay
+ * and .btnPause, so all three are listed.
+ */
+.osdControls .btnPlayPause,
+.osdControls .btnPlay,
+.osdControls .btnPause {
+    --apple-control-scale: 1.3;
 }
 
 ::-webkit-scrollbar {
@@ -655,11 +828,6 @@ body {
 
 .content-loader {
     animation: appleFadeIn 0.8s ease-out !important;
-}
-
-.button-flat:hover {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border-radius: var(--apple-radius) !important;
 }
 
 .layout-tv {
@@ -706,24 +874,15 @@ body {
 }
 
 .layout-tv .osdControls .paper-icon-button-light {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border-radius: 50% !important;
+    background: var(--apple-glass) !important;
+    border: 1px solid var(--apple-glass-edge) !important;
 }
 
-.layout-tv .osdControls .paper-icon-button-light:hover,
-.layout-tv .osdControls .paper-icon-button-light:focus {
-    background: rgba(255, 255, 255, 0.25) !important;
-    transform: scale(1.15) !important;
-}
-
-.layout-tv .osdControls .btnPlayPause {
-    background: rgba(255, 255, 255, 0.15) !important;
-    transform: scale(1.4) !important;
-}
-
-.layout-tv .osdControls .btnPlayPause:hover,
-.layout-tv .osdControls .btnPlayPause:focus {
-    background: rgba(255, 255, 255, 0.3) !important;
+.layout-tv .osdControls .btnPlayPause,
+.layout-tv .osdControls .btnPlay,
+.layout-tv .osdControls .btnPause {
+    --apple-control-scale: 1.4;
+    background: var(--apple-glass-heavy) !important;
 }
 
 .layout-tv .card {
@@ -868,10 +1027,101 @@ body {
     padding: 0 !important;
 }
 
+/* ---------- Controls: one shape, one hover, everywhere ---------- */
+
+/*
+ * Every button rests fully round and squares up under the cursor, so a tab, a
+ * poster overlay and a player control read as one family. Both border-radius
+ * and corner-shape interpolate, so the circle eases into a squircle rather
+ * than snapping; where corner-shape is unsupported the radius still animates
+ * and the button simply lands on a plain rounded rect instead.
+ *
+ * Hover brightens with an inset veil rather than swapping the background
+ * colour. Controls rest on fills as different as white 10% and black 45%;
+ * a veil lifts both by the same step without wrecking icon contrast on
+ * either, and unlike a colour swap it animates cleanly.
+ */
+.emby-tab-button,
+.emby-button.raised,
+.button-flat,
+.cardOverlayButton,
+.mainDetailButtons .paper-icon-button-light,
+.mainDetailButtons .detailButton,
+.btnVideoOsdBack,
+.osdControls .paper-icon-button-light,
+.skinHeader .headerButton {
+    border-radius: var(--apple-radius-control) !important;
+    corner-shape: round;
+    box-shadow: var(--apple-control-veil) !important;
+    transform: scale(var(--apple-control-scale, 1)) !important;
+    transition: var(--apple-control-transition) !important;
+}
+
+.emby-tab-button:hover,
+.emby-tab-button:focus,
+.emby-button.raised:hover,
+.emby-button.raised:focus,
+.button-flat:hover,
+.button-flat:focus,
+.cardOverlayButton:hover,
+.cardOverlayButton:focus,
+.mainDetailButtons .paper-icon-button-light:hover,
+.mainDetailButtons .paper-icon-button-light:focus,
+.mainDetailButtons .detailButton:hover,
+.mainDetailButtons .detailButton:focus,
+.btnVideoOsdBack:hover,
+.btnVideoOsdBack:focus,
+.osdControls .paper-icon-button-light:hover,
+.osdControls .paper-icon-button-light:focus,
+.skinHeader .headerButton:hover,
+.skinHeader .headerButton:focus {
+    border-radius: var(--apple-radius-control-hover) !important;
+    corner-shape: squircle;
+    box-shadow: var(--apple-control-veil-hover) !important;
+    transform: scale(calc(var(--apple-control-scale, 1) * 1.06)) !important;
+}
+
+/*
+ * A mouse click leaves :focus behind, so without this a clicked button stays
+ * lit until something else takes focus. Kept as its own block rather than
+ * folded into the rule above: an engine that has never heard of
+ * :focus-visible discards the whole rule the selector appears in, and there
+ * that would take D-pad focus feedback with it. Separate, such an engine just
+ * skips this block. :not(:hover) so pointing at an already-clicked button
+ * still lights it.
+ */
+.emby-tab-button:focus:not(:focus-visible):not(:hover),
+.emby-button.raised:focus:not(:focus-visible):not(:hover),
+.button-flat:focus:not(:focus-visible):not(:hover),
+.cardOverlayButton:focus:not(:focus-visible):not(:hover),
+.mainDetailButtons .paper-icon-button-light:focus:not(:focus-visible):not(:hover),
+.mainDetailButtons .detailButton:focus:not(:focus-visible):not(:hover),
+.btnVideoOsdBack:focus:not(:focus-visible):not(:hover),
+.osdControls .paper-icon-button-light:focus:not(:focus-visible):not(:hover),
+.skinHeader .headerButton:focus:not(:focus-visible):not(:hover) {
+    border-radius: var(--apple-radius-control) !important;
+    corner-shape: round;
+    box-shadow: var(--apple-control-veil) !important;
+    transform: scale(var(--apple-control-scale, 1)) !important;
+}
+
+.emby-tab-button:active,
+.emby-button.raised:active,
+.button-flat:active,
+.cardOverlayButton:active,
+.mainDetailButtons .paper-icon-button-light:active,
+.mainDetailButtons .detailButton:active,
+.btnVideoOsdBack:active,
+.osdControls .paper-icon-button-light:active,
+.skinHeader .headerButton:active {
+    transform: scale(calc(var(--apple-control-scale, 1) * 0.95)) !important;
+}
+
 /* Mobile and Tablet Optimizations */
 @media (max-width: 1000px) {
     :root {
         --apple-blur: blur(10px) saturate(140%);
+        --apple-radius-sheet: 20px;
     }
 
     .portraitCard,
@@ -890,6 +1140,20 @@ body {
     .detailPagePrimaryContainer .card,
     .detailImageContainer .card {
         width: 180px !important;
+    }
+
+    /*
+     * A page-height backdrop-filter is exactly the kind of work the blanket
+     * kill below is meant to avoid, but that rule is a bare `*` and loses to
+     * the sheet's own selector - so it has to opt out by name. Its fill
+     * carries the separation instead of the blur.
+     */
+    .detailPageWrapperContainer::before {
+        background: linear-gradient(to bottom,
+                rgba(16, 16, 18, 0.9) 0,
+                rgba(8, 8, 10, 0.97) 10em) !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
     }
 
     .skinHeader {
