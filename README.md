@@ -1,6 +1,6 @@
 # 🍎 ijelly
 
-A pixel-perfect, functionally robust Apple TV-inspired theme for Jellyfin. **ijelly** brings a premium, glassmorphic aesthetic and tactile interactions to your media library, optimized for both desktop and lean-back TV experiences. This theme is optimized for samsung TV's and Desktop.
+An Apple TV-inspired theme for Jellyfin. **ijelly** brings a glassmorphic aesthetic and tactile interactions to your media library, tuned for both desktop and lean-back TV use. This theme targets Samsung Tizen TVs and desktop browsers.
 
 ---
 
@@ -20,27 +20,74 @@ A pixel-perfect, functionally robust Apple TV-inspired theme for Jellyfin. **ije
 
 ## ✨ Features
 
-- **💎 Elite Glassmorphism**: Consistent frosted glass effects across all menus, dropdowns, dialogs, and the search overlay.
-- **🏃 Spring-Physics Animations**: Tactile, "bouncy" card zooms and button presses that mimic the native Apple TV 4K experience.
-- **🎬 Cinematic Item Details**: Immersive "Hero" backdrops with seamless gradient transitions and enlarged posters for a stunning focus on your media.
-- **📺 TV Optimized**: Stabilized grid flow and increased card sizes specifically for high-resolution TV layouts.
-- **🔡 Pixel-Perfect Clarity**: Advanced **Layer Isolation** techniques ensure zero font blur and razor-sharp text on all glass surfaces.
-- **💊 Modern Pill Navigation**: A sleek, underscore-free navigation system with spring-animated feedback.
+- **💎 Glassmorphism**: Frosted glass effects across menus, dropdowns, dialogs, and the search overlay.
+- **🏃 Spring-Physics Animations**: Tactile, "bouncy" card zooms and button presses inspired by the native Apple TV 4K experience.
+- **🎬 Cinematic Item Details**: Hero backdrops with gradient transitions and enlarged posters.
+- **📺 TV Optimized**: Larger card sizes and a TV-specific layout for high-resolution TV displays.
+- **💊 Pill Navigation**: An underscore-free tab navigation system with spring-animated feedback.
+- **♿ Accessible**: Visible keyboard focus rings and reduced-motion support for users who prefer fewer animations.
 
 ---
 
 ## 🚀 Installation
 
-1. Go to your Jellyfin **Dashboard** -> **General**.
+1. Go to your Jellyfin **Dashboard** → **General**.
 2. Scroll down to **Custom CSS**.
-3. Add @import url('https://cdn.jsdelivr.net/gh/safiyu/ijelly@main/ijelly.css');
+3. Add the following:
+   ```css
+   @import url('https://cdn.jsdelivr.net/gh/safiyu/ijelly@1/ijelly.css');
+   ```
 4. Click **Save**.
-5. **Settings** -> **Display** -> Enable Backdrops.
+5. Go to **Settings** → **Display** and enable **Backdrops**.
+
+The `@1` pin tracks the latest `1.x` release tag, so you get fixes without an untested version landing on your server the moment it's pushed. See [Releases](../../releases) for the changelog.
+
+---
+
+## 🎨 Customising
+
+ijelly exposes its design tokens as CSS custom properties on `:root`. Override any of them in your own Custom CSS block, after the `@import`, to retheme without editing the file:
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `--apple-bg` | `#000` | Base page background |
+| `--apple-glass` | `rgba(255, 255, 255, 0.1)` | Light glass fill |
+| `--apple-glass-heavy` | `rgba(255, 255, 255, 0.2)` | Heavier glass fill |
+| `--apple-text` | `#ffffff` | Primary text color |
+| `--apple-text-dim` | `rgba(255, 255, 255, 0.6)` | Secondary/inactive text |
+| `--apple-accent` | `#007aff` | Focus rings, active states |
+| `--apple-radius` | `12px` | Standard corner radius |
+| `--apple-radius-large` | `20px` | Large corner radius (TV cards) |
+| `--apple-blur` | `blur(25px) saturate(180%)` | Backdrop blur intensity |
+| `--apple-shadow` | see `ijelly.css` | Card hover shadow |
+| `--apple-font` | system font stack | Base typeface |
+| `--apple-spring-fast` | `cubic-bezier(0.16, 1, 0.3, 1)` | Quick UI transitions |
+| `--apple-spring-bouncy` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | Card hover/zoom transitions |
+
+Example — swap the accent color:
+```css
+:root {
+    --apple-accent: #ff375f;
+}
+```
+
+---
+
+## ✅ Compatibility
+
+- **Tested against:** Jellyfin Web (current stable release), desktop Chrome/Firefox/Safari, and the Samsung Tizen TV app.
+- **Subtitle repositioning** while the on-screen display is visible relies on the CSS `:has()` selector (Chrome/Edge 105+, Safari 15.4+, Firefox 121+). Older browsers, including some pre-2023 Tizen firmware, will keep subtitles at their default position instead of shifting them — playback and readability are unaffected.
+- **Mobile/tablet** (≤1000px width) automatically reduces or disables backdrop blur to avoid GPU-related UI stalls on lower-powered devices.
+- Uses the OS/browser's system font stack — no external font requests are made, so the theme works on offline or LAN-only servers.
 
 ---
 
 ## 🛠️ Design Philosophy
 
-**ijelly** is built on the principles of **Aesthetics, Responsiveness, and Clarity**. Every element—from the mathematically precise shadows to the sub-pixel antialiasing—is engineered to provide a first-class "Pro" experience that makes your Jellyfin server feel like a premium native application.
+**ijelly** is built on the principles of **Aesthetics, Responsiveness, and Clarity** — engineered to make your Jellyfin server feel like a polished native application.
 
 ---
+
+## 📄 License
+
+Released under the [MIT License](LICENSE).
