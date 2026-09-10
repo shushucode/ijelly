@@ -9,8 +9,6 @@
     --apple-radius-large: 20px;
     --apple-radius-sheet: 26px;
     --apple-radius-control: 999px;
-    --apple-radius-control-hover: 14px;
-    --apple-radius-control-sm-hover: 9px;
     --apple-radius-container: 999px;
     --apple-blur: blur(25px) saturate(180%);
     --apple-blur-heavy: blur(40px) saturate(180%);
@@ -25,7 +23,7 @@
     --apple-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     --apple-spring-fast: cubic-bezier(0.16, 1, 0.3, 1);
     --apple-spring-bouncy: cubic-bezier(0.34, 1.56, 0.64, 1);
-    --apple-control-transition: transform 0.28s var(--apple-spring-fast), border-radius 0.3s var(--apple-spring-fast), corner-shape 0.3s var(--apple-spring-fast), box-shadow 0.22s ease, border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+    --apple-control-transition: transform 0.28s var(--apple-spring-fast), box-shadow 0.22s ease, border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
 }
 
 html,
@@ -387,7 +385,6 @@ body {
     height: 1.55em !important;
     width: 1.55em !important;
     border-radius: var(--apple-radius-control) !important;
-    corner-shape: round;
     background-color: rgba(0, 0, 0, 0.45) !important;
     backdrop-filter: var(--apple-blur) !important;
     -webkit-backdrop-filter: var(--apple-blur) !important;
@@ -398,14 +395,10 @@ body {
 
 .cardOverlayButton-br .cardOverlayButton:hover .cardOverlayButtonIcon,
 .cardOverlayButton-br .cardOverlayButton:focus .cardOverlayButtonIcon {
-    border-radius: var(--apple-radius-control-sm-hover) !important;
-    corner-shape: squircle;
     box-shadow: var(--apple-control-veil-hover) !important;
 }
 
 .cardOverlayButton-br .cardOverlayButton:focus:not(:focus-visible):not(:hover) .cardOverlayButtonIcon {
-    border-radius: var(--apple-radius-control) !important;
-    corner-shape: round;
     box-shadow: var(--apple-control-veil) !important;
 }
 
@@ -597,6 +590,18 @@ body:has(.itemDetailPage:not(.hide)) .backdropContainer {
 
 .layout-tv .detailPageWrapperContainer {
     padding-bottom: 3em !important;
+}
+
+/*
+ * Mobile never loads the ambient artwork - .backdropContainer stays empty at
+ * this size - so the desktop hero's 52vh reads as 52vh of black above the
+ * title. The floor here is the header: .skinHeader goes position: absolute on
+ * mobile with a 3.5em min-height, and .detailRibbon starts immediately after
+ * the backdrop, so anything shorter slides the title under the header.
+ * Raise this if you do run with backdrops enabled on a phone.
+ */
+.layout-mobile .itemBackdrop {
+    height: 22vh !important;
 }
 
 .layout-tv #castCollapsible .emby-scroller,
@@ -1061,11 +1066,10 @@ html.layout-tv:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .shaka-text-cont
 /* ---------- Controls: one shape, one hover, everywhere ---------- */
 
 /*
- * Every button rests fully round and squares up under the cursor, so a tab, a
- * poster overlay and a player control read as one family. Both border-radius
- * and corner-shape interpolate, so the circle eases into a squircle rather
- * than snapping; where corner-shape is unsupported the radius still animates
- * and the button simply lands on a plain rounded rect instead.
+ * Every button keeps one shape in every state - fully round, so it reads as a
+ * circle when the content is an icon and as a pill when it is a label. A tab, a
+ * poster overlay and a player control then read as one family, and nothing
+ * changes silhouette under the cursor.
  *
  * Hover brightens with an inset veil rather than swapping the background
  * colour. Controls rest on fills as different as white 10% and black 45%;
@@ -1082,7 +1086,6 @@ html.layout-tv:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .shaka-text-cont
 .osdControls .paper-icon-button-light,
 .skinHeader .headerButton {
     border-radius: var(--apple-radius-control) !important;
-    corner-shape: round;
     box-shadow: var(--apple-control-veil) !important;
     transform: scale(var(--apple-control-scale, 1)) !important;
     transition: var(--apple-control-transition) !important;
@@ -1106,8 +1109,6 @@ html.layout-tv:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .shaka-text-cont
 .osdControls .paper-icon-button-light:focus,
 .skinHeader .headerButton:hover,
 .skinHeader .headerButton:focus {
-    border-radius: var(--apple-radius-control-hover) !important;
-    corner-shape: squircle;
     box-shadow: var(--apple-control-veil-hover) !important;
     transform: scale(calc(var(--apple-control-scale, 1) * 1.06)) !important;
 }
@@ -1130,8 +1131,6 @@ html.layout-tv:has(.videoOsdBottom:not(.videoOsdBottom-hidden)) .shaka-text-cont
 .btnVideoOsdBack:focus:not(:focus-visible):not(:hover),
 .osdControls .paper-icon-button-light:focus:not(:focus-visible):not(:hover),
 .skinHeader .headerButton:focus:not(:focus-visible):not(:hover) {
-    border-radius: var(--apple-radius-control) !important;
-    corner-shape: round;
     box-shadow: var(--apple-control-veil) !important;
     transform: scale(var(--apple-control-scale, 1)) !important;
 }
